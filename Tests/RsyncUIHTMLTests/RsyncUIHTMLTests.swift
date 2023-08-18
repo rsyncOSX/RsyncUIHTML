@@ -1,5 +1,5 @@
-import XCTest
 @testable import RsyncUIHTML
+import XCTest
 
 final class RsyncUIHTMLTests: XCTestCase {
     func testExample() throws {

@@ -12,6 +12,7 @@
 		E9363BAB2A8FAFDE00716D9E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E9363BAA2A8FAFDE00716D9E /* Assets.xcassets */; };
 		E95D91022A8FBD05007D4029 /* FeedKit in Frameworks */ = {isa = PBXBuildFile; productRef = E95D91012A8FBD05007D4029 /* FeedKit */; };
 		E95D91052A8FBD85007D4029 /* RichText in Frameworks */ = {isa = PBXBuildFile; productRef = E95D91042A8FBD85007D4029 /* RichText */; };
+		E9EABF9C2A8FC8F30058BC65 /* ObservableRSSfeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9EABF9B2A8FC8F30058BC65 /* ObservableRSSfeed.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		E9363BAA2A8FAFDE00716D9E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E9363BAF2A8FAFDE00716D9E /* RsyncUIHTML.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RsyncUIHTML.entitlements; sourceTree = "<group>"; };
 		E945B63D2A8FBC6F009186E6 /* FeedKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FeedKit; path = RsyncUIHTML/FeedKit; sourceTree = "<group>"; };
+		E9EABF9B2A8FC8F30058BC65 /* ObservableRSSfeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObservableRSSfeed.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				E9363BA82A8FAFDD00716D9E /* ContentView.swift */,
 				E9363BAA2A8FAFDE00716D9E /* Assets.xcassets */,
 				E9363BAF2A8FAFDE00716D9E /* RsyncUIHTML.entitlements */,
+				E9EABF9B2A8FC8F30058BC65 /* ObservableRSSfeed.swift */,
 			);
 			path = RsyncUIHTML;
 			sourceTree = "<group>";
@@ -82,6 +85,7 @@
 				E9363B9F2A8FAFDD00716D9E /* Sources */,
 				E9363BA02A8FAFDD00716D9E /* Frameworks */,
 				E9363BA12A8FAFDD00716D9E /* Resources */,
+				E9EABF9D2A8FCBA90058BC65 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -143,11 +147,32 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		E9EABF9D2A8FCBA90058BC65 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nif which /opt/homebrew/bin/swiftlint >/dev/null; then\n    /opt/homebrew/bin/swiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\nif which /opt/homebrew/bin/swiftformat >/dev/null; then\n    /opt/homebrew/bin/swiftformat --swiftversion 5 --disable enumNamespaces .\nelse\n  echo \"warning: SwiftFormat not installed, download from https://github.com/nicklockwood/SwiftFormat\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E9363B9F2A8FAFDD00716D9E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9EABF9C2A8FC8F30058BC65 /* ObservableRSSfeed.swift in Sources */,
 				E9363BA92A8FAFDD00716D9E /* ContentView.swift in Sources */,
 				E9363BA72A8FAFDD00716D9E /* RsyncUIHTMLApp.swift in Sources */,
 			);
