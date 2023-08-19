@@ -12,6 +12,7 @@ struct ContentView: View {
     @StateObject var rssfeed = ObservableRSSfeed()
     @State var selecteduuids = Set<ItemDescription.ID>()
     @State private var presentsheet: Bool = false
+    @State private var selectedgui: String = ""
 
     var body: some View {
         VStack {
@@ -37,6 +38,8 @@ struct ContentView: View {
             .padding()
 
             HStack {
+                guipicker
+
                 Spacer()
 
                 Button("HTML") { presentsheet = true }
@@ -45,6 +48,19 @@ struct ContentView: View {
             }
         }
         .padding()
+    }
+
+    var guipicker: some View {
+        Picker("", selection: $selectedgui.onChange {
+            rssfeed.selectedgui = selectedgui
+        }) {
+            ForEach(rssfeed.guis, id: \.self) { gui in
+                Text(gui)
+                    .tag(gui)
+            }
+        }
+        .frame(width: 180)
+        .accentColor(.blue)
     }
 }
 
