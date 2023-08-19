@@ -12,11 +12,14 @@ struct ContentView: View {
     @StateObject var rssfeed = ObservableRSSfeed()
 
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text("Hello, world!")
+        Table(rssfeed.descriptions) {
+            TableColumn("Title") { data in
+                Text(String(data.title))
+            }
+
+            TableColumn("Description") { data in
+                Text(String(data.descriptions))
+            }
         }
         .padding()
     }

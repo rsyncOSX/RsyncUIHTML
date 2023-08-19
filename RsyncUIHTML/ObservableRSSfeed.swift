@@ -8,38 +8,37 @@
 import FeedKit
 import Foundation
 
+struct ItemDescription: Identifiable {
+    let id = UUID()
+    var descriptions: String = ""
+    var title: String = ""
+}
+
 @MainActor
 final class ObservableRSSfeed: ObservableObject {
     @Published var feed: RSSFeed?
+    @Published var descriptions = [ItemDescription]()
+
     let feedURL = URL(string: "https://rsyncui.netlify.app/index.xml")!
     // let feedURL = URL(string: "http://images.apple.com/main/rss/hotnews/hotnews.rss")!
 
     private func fetchrssdata() {
         let parser = FeedParser(URL: feedURL)
-        // Parse asynchronously, not to block the UI.
         parser.parseAsync { [weak self] result in
             guard let self = self else { return }
             switch result {
             case let .success(localfeed):
                 DispatchQueue.main.async {
                     self.feed = localfeed.rssFeed
+                    self.descriptions.removeAll()
+                    for i in 0 ..< (self.feed?.items?.count ?? 0) {
+                        if let description = self.feed?.items?[i].description,
+                           let title = self.feed?.items?[i].title
+                        {
+                            self.descriptions.append(ItemDescription(descriptions: description, title: title))
+                        }
+                    }
                 }
-                // Grab the parsed feed directly as an optional rss, atom or json feed object
-
-                // Or alternatively...
-                //
-                // switch feed {
-                // case .rss(let feed): break
-                // case .atom(let feed): break
-                // case .json(let feed): break
-                // }
-
-            // Then back to the Main thread to update the UI.
-            /*
-             DispatchQueue.main.async {
-                 self.feedItemsTableView.reloadData()
-             }
-             */
             case let .failure(error):
                 print(error)
             }
