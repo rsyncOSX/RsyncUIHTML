@@ -19,8 +19,8 @@ final class ObservableRSSfeed: ObservableObject {
     @Published var feed: RSSFeed?
     @Published var descriptions = [ItemDescription]()
 
+    var descriptiontext: String = ""
     let feedURL = URL(string: "https://rsyncui.netlify.app/index.xml")!
-    // let feedURL = URL(string: "http://images.apple.com/main/rss/hotnews/hotnews.rss")!
 
     private func fetchrssdata() {
         let parser = FeedParser(URL: feedURL)
