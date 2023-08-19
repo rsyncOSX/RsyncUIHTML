@@ -29,11 +29,6 @@ struct ContentView: View {
                 TableColumn("Title") { data in
                     Text(String(data.title))
                 }
-                /*
-                            TableColumn("Description") { data in
-                                Text(String(data.descriptions))
-                            }
-                 */
             }
             .padding()
 

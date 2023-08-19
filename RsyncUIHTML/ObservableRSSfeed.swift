@@ -27,7 +27,6 @@ final class ObservableRSSfeed: ObservableObject {
     let guis = ["RsyncUI", "RsyncOSX"]
     let rsyncuistring = "https://rsyncui.netlify.app/index.xml"
     let rsyncosxstring = "https://rsyncosx.netlify.app/index.xml"
-    // var urlstring: String?
     // Combine
     var subscriptions = Set<AnyCancellable>()
 
