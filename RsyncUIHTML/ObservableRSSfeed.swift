@@ -22,11 +22,11 @@ final class ObservableRSSfeed: ObservableObject {
     @Published var selectedgui: String?
 
     var descriptiontext: String = ""
-
     var feedURL: URL?
     let guis = ["RsyncUI", "RsyncOSX"]
     let rsyncuistring = "https://rsyncui.netlify.app/index.xml"
     let rsyncosxstring = "https://rsyncosx.netlify.app/index.xml"
+    
     // Combine
     var subscriptions = Set<AnyCancellable>()
 
@@ -62,7 +62,7 @@ final class ObservableRSSfeed: ObservableObject {
         }
     }
 
-    private func seturl(_ url: String) {
+    func seturl(_ url: String) {
         switch url {
         case "RsyncUI":
             feedURL = URL(string: rsyncuistring)

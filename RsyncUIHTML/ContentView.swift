@@ -53,7 +53,7 @@ struct ContentView: View {
     }
 
     var guipicker: some View {
-        Picker("", selection: $selectedgui.onChange {
+        Picker("Application", selection: $selectedgui.onChange {
             rssfeed.selectedgui = selectedgui
         }) {
             ForEach(rssfeed.guis, id: \.self) { gui in
@@ -63,6 +63,10 @@ struct ContentView: View {
         }
         .frame(width: 180)
         .accentColor(.blue)
+        .onAppear {
+            selectedgui = rssfeed.guis[0]
+            rssfeed.seturl(selectedgui)
+        }
     }
 }
 
