@@ -11,62 +11,55 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var rssfeed = ObservableRSSfeed()
     @State var selecteduuids = Set<ItemDescription.ID>()
-    @State private var presentsheet: Bool = false
     @State private var selectedgui: String = ""
 
     var body: some View {
-        VStack {
-            if presentsheet == false {
-                Table(rssfeed.descriptions, selection: $selecteduuids.onChange {
-                    let selected = rssfeed.descriptions.filter { description in
-                        selecteduuids.contains(description.id)
-                    }
-                    if selected.count == 1 {
-                        rssfeed.descriptiontext = selected[0].descriptions
-                    } else {
-                        rssfeed.descriptiontext = ""
-                    }
-                }) {
-                    TableColumn("Title") { data in
-                        Text(String(data.title))
-                    }
+        NavigationSplitView {
+            Table(rssfeed.descriptions, selection: $selecteduuids.onChange {
+                let selected = rssfeed.descriptions.filter { description in
+                    selecteduuids.contains(description.id)
                 }
-                .padding()
-
-                HStack {
-                    guipicker
-
-                    Spacer()
-
-                    Button("HTML") { presentsheet = true }
-                        .buttonStyle(ColorfulButtonStyle())
-                    // .sheet(isPresented: $presentsheet) { RichTextView(html: rssfeed.descriptiontext) }
+                if selected.count == 1 {
+                    rssfeed.descriptiontext = selected[0].descriptions
+                } else {
+                    rssfeed.descriptiontext = ""
                 }
-            } else {
-                RichTextView(presentsheet: $presentsheet,
-                             html: rssfeed.descriptiontext)
+            }) {
+                TableColumn("Topics", value: \.title)
             }
+            .frame(minWidth: 300)
+
+        } detail: {
+            RichTextView(html: rssfeed.descriptiontext)
         }
+        .frame(minWidth: 1000, minHeight: 600)
         .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        // .sheet(isPresented: $presentsheet) { RichTextView(html: rssfeed.descriptiontext) }
+        .toolbar(content: {
+            ToolbarItem {
+                guipicker
+                    .tooltip("Select application")
+            }
+
+        })
     }
 
     var guipicker: some View {
         Picker("Application", selection: $selectedgui.onChange {
             rssfeed.selectedgui = selectedgui
+            rssfeed.descriptiontext = ""
         }) {
             ForEach(rssfeed.guis, id: \.self) { gui in
                 Text(gui)
                     .tag(gui)
             }
         }
-        .frame(width: 180)
+        .frame(width: 200)
         .accentColor(.blue)
         .onAppear {
             selectedgui = rssfeed.guis[0]
             rssfeed.seturl(selectedgui)
         }
+        .padding(2)
     }
 }
 
@@ -170,5 +163,56 @@ struct ColorfulRedButtonStyle: ButtonStyle {
             .background(
                 ColorfulRedBackground(isHighlighted: configuration.isPressed, shape: Capsule())
             )
+    }
+}
+
+extension View {
+    func tooltip(_ tip: String) -> some View {
+        ZStack {
+            background(GeometryReader { childGeometry in
+                TooltipView(tip, geometry: childGeometry) {
+                    self
+                }
+            })
+            self
+        }
+    }
+}
+
+struct TooltipView<Content>: View where Content: View {
+    let content: () -> Content
+    let tip: String
+    let geometry: GeometryProxy
+
+    init(_ tip: String, geometry: GeometryProxy, @ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+        self.tip = tip
+        self.geometry = geometry
+    }
+
+    var body: some View {
+        Tooltip(tip, content: content)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+    }
+}
+
+struct Tooltip<Content: View>: NSViewRepresentable {
+    typealias NSViewType = NSHostingView<Content>
+
+    init(_ text: String?, @ViewBuilder content: () -> Content) {
+        self.text = text
+        self.content = content()
+    }
+
+    let text: String?
+    let content: Content
+
+    func makeNSView(context _: Context) -> NSHostingView<Content> {
+        NSViewType(rootView: content)
+    }
+
+    func updateNSView(_ nsView: NSHostingView<Content>, context _: Context) {
+        nsView.rootView = content
+        nsView.toolTip = text
     }
 }

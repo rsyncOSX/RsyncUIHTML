@@ -9,7 +9,6 @@ import RichText
 import SwiftUI
 
 struct RichTextView: View {
-    @Binding var presentsheet: Bool
     var html = ""
 
     var body: some View {
@@ -25,20 +24,14 @@ struct RichTextView: View {
                     .colorPreference(forceColor: .onlyLinks)
                     .linkOpenType(.Safari)
                     .customCSS("")
-                    .placeholder {
-                        Text("loading")
-                    }
-                    .transition(.easeOut)
-            }
-
-            HStack {
-                Spacer()
-
-                Button("Dismiss") { presentsheet = false }
-                    .buttonStyle(ColorfulButtonStyle())
+                /*
+                 .placeholder {
+                     Text("loading")
+                 }
+                 .transition(.easeOut)
+                  */
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
     }
 }
