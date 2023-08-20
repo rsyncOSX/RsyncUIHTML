@@ -16,33 +16,40 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Table(rssfeed.descriptions, selection: $selecteduuids.onChange {
-                let selected = rssfeed.descriptions.filter { description in
-                    selecteduuids.contains(description.id)
+            if presentsheet == false {
+                Table(rssfeed.descriptions, selection: $selecteduuids.onChange {
+                    let selected = rssfeed.descriptions.filter { description in
+                        selecteduuids.contains(description.id)
+                    }
+                    if selected.count == 1 {
+                        rssfeed.descriptiontext = selected[0].descriptions
+                    } else {
+                        rssfeed.descriptiontext = ""
+                    }
+                }) {
+                    TableColumn("Title") { data in
+                        Text(String(data.title))
+                    }
                 }
-                if selected.count == 1 {
-                    rssfeed.descriptiontext = selected[0].descriptions
-                } else {
-                    rssfeed.descriptiontext = ""
+                .padding()
+
+                HStack {
+                    guipicker
+
+                    Spacer()
+
+                    Button("HTML") { presentsheet = true }
+                        .buttonStyle(ColorfulButtonStyle())
+                    // .sheet(isPresented: $presentsheet) { RichTextView(html: rssfeed.descriptiontext) }
                 }
-            }) {
-                TableColumn("Title") { data in
-                    Text(String(data.title))
-                }
-            }
-            .padding()
-
-            HStack {
-                guipicker
-
-                Spacer()
-
-                Button("HTML") { presentsheet = true }
-                    .buttonStyle(ColorfulButtonStyle())
-                    .sheet(isPresented: $presentsheet) { RichTextView(html: rssfeed.descriptiontext) }
+            } else {
+                RichTextView(presentsheet: $presentsheet,
+                             html: rssfeed.descriptiontext)
             }
         }
         .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        // .sheet(isPresented: $presentsheet) { RichTextView(html: rssfeed.descriptiontext) }
     }
 
     var guipicker: some View {

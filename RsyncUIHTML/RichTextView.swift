@@ -9,8 +9,7 @@ import RichText
 import SwiftUI
 
 struct RichTextView: View {
-    @SwiftUI.Environment(\.dismiss) var dismiss
-
+    @Binding var presentsheet: Bool
     var html = ""
 
     var body: some View {
@@ -22,7 +21,7 @@ struct RichTextView: View {
                     .imageRadius(12)
                     .fontType(.system)
                     .foregroundColor(light: .lightGray, dark: .lightGray)
-                    .linkColor(light: .blue, dark: .blue)
+                    .linkColor(light: .linkColor, dark: .linkColor)
                     .colorPreference(forceColor: .onlyLinks)
                     .linkOpenType(.Safari)
                     .customCSS("")
@@ -35,11 +34,11 @@ struct RichTextView: View {
             HStack {
                 Spacer()
 
-                Button("Dismiss") { dismiss() }
+                Button("Dismiss") { presentsheet = false }
                     .buttonStyle(ColorfulButtonStyle())
             }
         }
-        .frame(minWidth: 800, minHeight: 600)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .padding()
     }
 }
