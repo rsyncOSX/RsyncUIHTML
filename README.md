@@ -1,4 +1,4 @@
-The application reads the RSS feeds for the applications [RsyncUI](https://rsyncui.netlify.app/) and  [RsyncOSX](https://rsyncosx.netlify.app/) which are built by Hugo and served on Netlify as static web pages. The application utilizes two external libraries:
+The application read the RSS feeds for the applications [RsyncUI](https://rsyncui.netlify.app/) and  [RsyncOSX](https://rsyncosx.netlify.app/) which are built by Hugo and served on Netlify as static web pages. The application utilizes two external libraries:
 
 - [RichText](https://github.com/NuPlay/RichText)
 - [FeedKit](https://github.com/nmdias/FeedKit)
