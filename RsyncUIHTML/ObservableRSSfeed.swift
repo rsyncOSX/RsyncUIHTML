@@ -16,7 +16,7 @@ struct ItemDescription: Identifiable {
 }
 
 enum feeditmes: String, Identifiable, CaseIterable, CustomStringConvertible {
-    case RsyncUI, RsyncOSX, Toppturer
+    case RsyncUI, RsyncOSX
     var id: String { rawValue }
     var description: String { rawValue.localizedCapitalized }
 }
@@ -74,8 +74,6 @@ final class ObservableRSSfeed: ObservableObject {
             feedURL = URL(string: rsyncuistring)
         case .RsyncOSX:
             feedURL = URL(string: rsyncosxstring)
-        case .Toppturer:
-            feedURL = URL(string: toppturstring)
         }
         fetchrssdata()
     }
