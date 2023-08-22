@@ -15,17 +15,23 @@ struct ItemDescription: Identifiable {
     var title: String = ""
 }
 
+enum feeditmes: String, Identifiable, CaseIterable, CustomStringConvertible {
+    case RsyncUI, RsyncOSX, Toppturer
+    var id: String { rawValue }
+    var description: String { rawValue.localizedCapitalized }
+}
+
 @MainActor
 final class ObservableRSSfeed: ObservableObject {
     @Published var feed: RSSFeed?
     @Published var descriptions = [ItemDescription]()
-    @Published var selectedgui: String?
+    @Published var selectedgui: feeditmes = .RsyncUI
 
     var descriptiontext: String = ""
     var feedURL: URL?
-    let guis = ["RsyncUI", "RsyncOSX"]
     let rsyncuistring = "https://rsyncui.netlify.app/index.xml"
     let rsyncosxstring = "https://rsyncosx.netlify.app/index.xml"
+    let toppturstring = "https://toppturer.netlify.app/index.xml"
 
     // Combine
     var subscriptions = Set<AnyCancellable>()
@@ -33,7 +39,7 @@ final class ObservableRSSfeed: ObservableObject {
     init() {
         $selectedgui
             .sink { data in
-                self.seturl(data ?? "")
+                self.seturl(data)
             }.store(in: &subscriptions)
     }
 
@@ -62,14 +68,14 @@ final class ObservableRSSfeed: ObservableObject {
         }
     }
 
-    func seturl(_ url: String) {
+    func seturl(_ url: feeditmes) {
         switch url {
-        case "RsyncUI":
+        case .RsyncUI:
             feedURL = URL(string: rsyncuistring)
-        case "RsyncOSX":
+        case .RsyncOSX:
             feedURL = URL(string: rsyncosxstring)
-        default:
-            feedURL = nil
+        case .Toppturer:
+            feedURL = URL(string: toppturstring)
         }
         fetchrssdata()
     }

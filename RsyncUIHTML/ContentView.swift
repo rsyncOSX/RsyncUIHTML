@@ -11,7 +11,7 @@ import SwiftUI
 struct ContentView: View {
     @StateObject var rssfeed = ObservableRSSfeed()
     @State var selecteduuids = Set<ItemDescription.ID>()
-    @State private var selectedgui: String = ""
+    @State private var selectedgui: feeditmes = .RsyncUI
 
     var body: some View {
         NavigationSplitView {
@@ -48,15 +48,14 @@ struct ContentView: View {
             rssfeed.selectedgui = selectedgui
             rssfeed.descriptiontext = ""
         }) {
-            ForEach(rssfeed.guis, id: \.self) { gui in
-                Text(gui)
-                    .tag(gui)
+            ForEach(feeditmes.allCases) { Text($0.description)
+                .tag($0)
             }
         }
         .frame(width: 200)
         .accentColor(.blue)
         .onAppear {
-            selectedgui = rssfeed.guis[0]
+            selectedgui = .RsyncUI
             rssfeed.seturl(selectedgui)
         }
         .padding(2)
