@@ -37,7 +37,7 @@ struct ContentView: View {
         .toolbar(content: {
             ToolbarItem {
                 guipicker
-                    .tooltip("Select application")
+                    .tooltip("Select RSSfeed")
             }
 
         })
