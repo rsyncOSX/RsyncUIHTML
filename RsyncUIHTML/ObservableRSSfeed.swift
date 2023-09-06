@@ -16,12 +16,11 @@ struct ItemDescription: Identifiable {
 }
 
 enum feeditmes: String, Identifiable, CaseIterable, CustomStringConvertible {
-    case RsyncUI, RsyncOSX, XcodeReleases
+    case RsyncUI, RsyncOSX
     var id: String { rawValue }
     var description: String { rawValue.localizedCapitalized }
 }
 
-@MainActor
 final class ObservableRSSfeed: ObservableObject {
     @Published var feed: RSSFeed?
     @Published var descriptions = [ItemDescription]()
@@ -31,8 +30,6 @@ final class ObservableRSSfeed: ObservableObject {
     var feedURL: URL?
     let rsyncuistring = "https://rsyncui.netlify.app/index.xml"
     let rsyncosxstring = "https://rsyncosx.netlify.app/index.xml"
-    let toppturstring = "https://toppturer.netlify.app/index.xml"
-    let xcodereleasestring = "https://xcodereleases.com/api/all.rss"
 
     // Combine
     var subscriptions = Set<AnyCancellable>()
@@ -75,8 +72,6 @@ final class ObservableRSSfeed: ObservableObject {
             feedURL = URL(string: rsyncuistring)
         case .RsyncOSX:
             feedURL = URL(string: rsyncosxstring)
-        case .XcodeReleases:
-            feedURL = URL(string: xcodereleasestring)
         }
         fetchrssdata()
     }
