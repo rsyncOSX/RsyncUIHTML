@@ -5,6 +5,6 @@ The application read the RSS feeds of documentation for [RsyncUI](https://rsyncu
 
 FeedKit reads the RSS feeds, RichText displays the feeds as HTML. The application is developed by SwiftUI and the source is a few lines of code. The real work is by the two external libraries.
 
-RsyncUIHTML is built for macOS 13 and later.
+RsyncUIHTML is built for macOS 14.
 
 ![](images/rsyncuihtml.png)
