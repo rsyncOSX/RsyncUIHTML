@@ -5,9 +5,9 @@
 //  Created by Thomas Evensen on 18/08/2023.
 //
 
-import Combine
 import FeedKit
 import Foundation
+import Observation
 
 struct ItemDescription: Identifiable {
     let id = UUID()
@@ -21,27 +21,18 @@ enum feeditmes: String, Identifiable, CaseIterable, CustomStringConvertible {
     var description: String { rawValue.localizedCapitalized }
 }
 
-final class ObservableRSSfeed: ObservableObject {
-    @Published var feed: RSSFeed?
-    @Published var descriptions = [ItemDescription]()
-    @Published var selectedgui: feeditmes = .RsyncUI
-
+@Observable
+final class ObservableRSSfeed {
     var descriptiontext: String = ""
+
+    @ObservationIgnored
+    var feed: RSSFeed?
+    var descriptions = [ItemDescription]()
     var feedURL: URL?
     let rsyncuistring = "https://rsyncui.netlify.app/index.xml"
     let rsyncosxstring = "https://rsyncosx.netlify.app/index.xml"
 
-    // Combine
-    var subscriptions = Set<AnyCancellable>()
-
-    init() {
-        $selectedgui
-            .sink { data in
-                self.seturl(data)
-            }.store(in: &subscriptions)
-    }
-
-    private func fetchrssdata() {
+    private func fetchrssdata() async {
         if let url = feedURL {
             let parser = FeedParser(URL: url)
             parser.parseAsync { [weak self] result in
@@ -66,13 +57,13 @@ final class ObservableRSSfeed: ObservableObject {
         }
     }
 
-    func seturl(_ url: feeditmes) {
+    func seturl(_ url: feeditmes) async {
         switch url {
         case .RsyncUI:
             feedURL = URL(string: rsyncuistring)
         case .RsyncOSX:
             feedURL = URL(string: rsyncosxstring)
         }
-        fetchrssdata()
+        await fetchrssdata()
     }
 }
