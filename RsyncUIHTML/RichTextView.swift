@@ -24,14 +24,25 @@ struct RichTextView: View {
                     .colorPreference(forceColor: .onlyLinks)
                     .linkOpenType(.Safari)
                     .customCSS("")
-                /*
-                 .placeholder {
-                     Text("loading")
-                 }
-                 .transition(.easeOut)
-                  */
+                    .placeholder {
+                        Text("Selecting the RSS-feed")
+                    }
+                    .transition(.easeOut)
             }
         }
         .padding()
     }
 }
+
+/*
+ do {
+    let html = "<html><head><title>First parse</title></head>"
+        + "<body><p>Parsed HTML into a doc.</p></body></html>"
+    let doc: Document = try SwiftSoup.parse(html)
+    return try doc.text()
+ } catch Exception.Error(let type, let message) {
+     print(message)
+ } catch {
+     print("error")
+ }
+ */
